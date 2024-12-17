@@ -20,6 +20,7 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+# catalog app 추가
 
 from django.conf.urls import include
 from django.urls import path
@@ -28,11 +29,16 @@ urlpatterns += [
     path('catalog/',include('catalog.urls')),
 ]
 
+#리다이렉트 맵핑
 from django.views.generic import RedirectView
 
 urlpatterns += [
     path('', RedirectView.as_view(url='/catalog/',permanent=True)),
 ]
+
+#장고는 기본적으로 css, JS, 그리고 이미지와 같은 정적 파일을 제공하지 않는다.
+# 정적 파일들을 제공하는 것을 가능하게 하는 코드
+
 
 from django.conf import settings
 from django.conf.urls.static import static
