@@ -33,8 +33,6 @@ class Book(models.Model):
     # book 레코드에 접근할 수 있는 url를 return
     def get_absoulte_url(self):
         return reverse('book-detail',args=[str(self.id)])
-    def __str__(self):
-        return f'{self.last_name},{self.first_name}'
     
 
 import uuid
@@ -80,3 +78,6 @@ class Author(models.Model): #작가모델
     
     def get_absolute_url(self):
         return reverse('author-detail',args=[str(self.id)])
+    
+    def __str__(self):
+        return f'{self.last_name},{self.first_name}'
