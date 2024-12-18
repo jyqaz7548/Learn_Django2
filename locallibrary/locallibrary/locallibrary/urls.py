@@ -47,3 +47,9 @@ from django.conf.urls.static import static
 
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+#로그인,로그아웃, 비밀번호 관리 페이지를 위한 "accounts/" URL 추가
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+]

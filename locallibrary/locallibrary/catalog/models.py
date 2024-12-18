@@ -31,7 +31,7 @@ class Book(models.Model):
         return self.title
     
     # book 레코드에 접근할 수 있는 url를 return
-    def get_absoulte_url(self):
+    def get_absolute_url(self):
         return reverse('book-detail',args=[str(self.id)])
     
 
