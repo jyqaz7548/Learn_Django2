@@ -5,7 +5,7 @@ from catalog.models import Book,Author,BookInstance,Genre
 def index(request):
 
 
-    num_books = Book.objects.all().count()
+    num_books = Book.objects.all().count() #책 오브젝트를 모두 가져오고 갯수를 카운트
     num_instances = BookInstance.objects.all().count()
 
 
