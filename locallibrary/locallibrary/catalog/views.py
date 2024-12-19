@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render
 
 from catalog.models import Book,Author,BookInstance,Genre
@@ -55,3 +56,41 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView) :
             .filter(status__exact='o')
             .order_by('due_back')
         )
+    
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
+from catalog.forms import RenewBookForm
+
+def renew_book_librarian(request, pk) :
+    book_instance = get_object_or_404(BookInstance, pk=pk)
+
+
+    #POST 요청이 들어오면 갱신처리 시작
+    if request.method == 'POST':
+
+        #form 인스턴스를 만들고 요청한 정보로 데이터를 채움
+        form = RenewBookForm(request.POST)
+
+        #폼 유효성 검사
+        if form.is_valid():
+            # form.cleaned_data 데이터를 요청 받은대로 처리
+            book_instance.due_back = form.cleaned_data['renewal_date']
+            book_instance.save()
+    
+
+    #Get 이나 다른 요청 들어오면  default form 사용
+    else:
+        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
+    
+
+    context = {
+        'form' :form,
+        'book_instance':book_instance,
+    }
+
+
+    return render(request, 'catalog/book_renew_librarian.html',context)
